@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Assignment #4 - Payroll Management</title>
+<style>
+    body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    background-image: url('images/background.jpg'); /* Replace 'your-image.jpg' with the path to your image file */
+    background-size: cover; /* Scales the image to cover the entire background */
+    background-repeat: no-repeat; /* Prevents the image from repeating */
+    background-attachment: fixed; /* Keeps the image fixed during scrolling (optional) */
+    background-position: center; /* Centers the image (optional) */
+    color: #333;
+  }
+  header {
+    background: linear-gradient(90deg, #3818eb, #71b3ce);
+    padding: 1rem 2rem;
+    box-shadow: 0 4px 10px rgba(247, 7, 7, 0.3);
+  }
+  nav {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+  }
+  nav a {
+    color: white;
+    font-weight: 600;
+    text-decoration: none;
+    padding: 0.5rem 1.2rem;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+  }
+  nav a:hover {
+    background-color: rgba(255 255 255 / 0.3);
+  }
+  nav a.active {
+    background-color: white;
+    color: black;
+    font-weight: 700;
+  }
+  main {
+    max-width: 900px;
+    margin: 2.5rem auto;
+    padding: 0 1.5rem;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.07);
+  }
+  h1 {
+    text-align: center;
+    color: #3818eb;
+  }
+  .section {
+    margin: 2rem 0;
+  }
+  .section h2 {
+    margin-bottom: 0.8rem;
+    color: #551a8b;
+    border-bottom: 2px solid #551a8b;
+    padding-bottom: 0.3rem;
+  }
+  label {
+    display: block;
+    margin-bottom: 0.25rem;
+    font-weight: 600;
+  }
+  input[type="text"], input[type="number"] {
+    width: 100%;
+    padding: 0.5rem;
+    font-size: 1rem;
+    margin-bottom: 0.8rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  button {
+    padding: 0.5rem 1.5rem;
+    font-size: 1rem;
+    background-color: #3818eb;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-bottom: 1rem;
+  }
+  button:hover {
+    background-color: #5c3cea;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+  }
+  th, td {
+    border: 1px solid #ddd;
+    padding: 0.5rem;
+    text-align: left;
+  }
+  th {
+    background-color: #f2f2f2;
+    font-weight: 600;
+  }
+  .back-link {
+    text-align: center;
+    margin: 2rem 0;
+  }
+  .back-link a {
+    color: #3818eb;
+    text-decoration: none;
+    font-weight: 600;
+  }
+  .back-link a:hover {
+    text-decoration: underline;
+  }
+</style>
+</head>
+<body>
+<header>
+  <nav>
+  <a href="index.html">HOME</a>
+
+  </nav>
+</header>
+<main>
+  <h1>Assignment #4 - Payroll Management</h1>
+
+  <!-- Add Employee -->
+  <section class="section">
+    <h2>Add Employee</h2>
+    <label for="empName">Employee Name:</label>
+    <input type="text" id="empName" placeholder="e.g. John Doe" />
+    <label for="daysWorked">Days Worked:</label>
+    <input type="number" id="daysWorked" placeholder="e.g. 20" min="0" step="1" />
+    <label for="dailyRate">Daily Rate (₱):</label>
+    <input type="number" id="dailyRate" placeholder="e.g. 500" min="0" step="0.01" />
+    <label for="deduction">Deduction Amount (₱):</label>
+    <input type="number" id="deduction" placeholder="e.g. 1000" min="0" step="0.01" />
+    <button type="button" onclick="addEmployee()">Add Employee</button>
+  </section>
+
+  <!-- Delete Employee -->
+  <section class="section">
+    <h2>Delete Employee</h2>
+    <label for="deleteLine">Enter Line Number to Delete:</label>
+    <input type="number" id="deleteLine" placeholder="e.g. 1" min="1" step="1" />
+    <button type="button" onclick="deleteEmployee()">Delete Employee</button>
+  </section>
+
+  <!-- Payroll Table -->
+  <section class="section">
+    <h2>Payroll List</h2>
+    <table id="payrollTable">
+      <thead>
+        <tr>
+          <th>No.</th>
+          <th>Employee Name</th>
+          <th>Days Worked</th>
+          <th>Daily Rate (₱)</th>
+          <th>Gross Pay (₱)</th>
+          <th>Deduction Amount (₱)</th>
+          <th>Net Pay (₱)</th>
+        </tr>
+      </thead>
+      <tbody id="payrollBody">
+        <!-- Rows will be added here -->
+      </tbody>
+    </table>
+  </section>
+
+  <div class="back-link">
+    <a href="index.html">&larr; Back to Home</a>
+  </div>
+</main>
+
+<script>
+  let employees = [];
+
+  function addEmployee() {
+    const name = document.getElementById('empName').value.trim();
+    const days = parseFloat(document.getElementById('daysWorked').value);
+    const rate = parseFloat(document.getElementById('dailyRate').value);
+    const deduction = parseFloat(document.getElementById('deduction').value);
+
+    if (!name || isNaN(days) || days < 0 || isNaN(rate) || rate < 0 || isNaN(deduction) || deduction < 0) {
+      alert("Please enter valid values for all fields.");
+      return;
+    }
+
+    const gross = days * rate;
+    const net = gross - deduction;
+
+    employees.push({ name, days, rate, deduction, gross, net });
+
+    renderTable();
+
+    // Clear inputs
+    document.getElementById('empName').value = '';
+    document.getElementById('daysWorked').value = '';
+    document.getElementById('dailyRate').value = '';
+    document.getElementById('deduction').value = '';
+  }
+
+  function deleteEmployee() {
+    const line = parseInt(document.getElementById('deleteLine').value);
+    if (isNaN(line) || line < 1 || line > employees.length) {
+      alert("Please enter a valid line number.");
+      return;
+    }
+
+    employees.splice(line - 1, 1);
+    renderTable();
+
+    // Clear input
+    document.getElementById('deleteLine').value = '';
+  }
+
+  function renderTable() {
+    const tbody = document.getElementById('payrollBody');
+    tbody.innerHTML = '';
+
+    employees.forEach((emp, index) => {
+      const row = document.createElement('tr');
+      row.innerHTML = `
+        <td>${index + 1}</td>
+        <td>${emp.name}</td>
+        <td>${emp.days}</td>
+        <td>${emp.rate.toFixed(2)}</td>
+        <td>${emp.gross.toFixed(2)}</td>
+        <td>${emp.deduction.toFixed(2)}</td>
+        <td>${emp.net.toFixed(2)}</td>
+      `;
+      tbody.appendChild(row);
+    });
+  }
+</script>
+</body>
+</html>

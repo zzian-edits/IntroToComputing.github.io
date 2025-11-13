@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Assignment #1 - Unit Conversion</title>
+<style>
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    background-image: url('images/background.jpg'); /* Replace 'your-image.jpg' with the path to your image file */
+    background-size: cover; /* Scales the image to cover the entire background */
+    background-repeat: no-repeat; /* Prevents the image from repeating */
+    background-attachment: fixed; /* Keeps the image fixed during scrolling (optional) */
+    background-position: center; /* Centers the image (optional) */
+    color: #333;
+  }
+  header {
+    background: linear-gradient(90deg, #3818eb, #71b3ce);
+    padding: 1rem 2rem;
+    box-shadow: 0 4px 10px rgba(247, 7, 7, 0.3);
+  }
+  nav {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+  }
+  nav a {
+    color: white;
+    font-weight: 600;
+    text-decoration: none;
+    padding: 0.5rem 1.2rem;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+  }
+  nav a:hover {
+    background-color: rgba(255 255 255 / 0.3);
+  }
+  nav a.active {
+    background-color: white;
+    color: black;
+    font-weight: 700;
+  }
+  main {
+    max-width: 700px;
+    margin: 2.5rem auto;
+    padding: 0 1.5rem;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.07);
+  }
+  h1 {
+    text-align: center;
+    color: #3818eb;
+  }
+  .section {
+    margin: 2rem 0;
+  }
+  .section h2 {
+    margin-bottom: 0.8rem;
+    color: #551a8b;
+    border-bottom: 2px solid #551a8b;
+    padding-bottom: 0.3rem;
+  }
+  label {
+    display: block;
+    margin-bottom: 0.25rem;
+    font-weight: 600;
+  }
+  input[type="number"] {
+    width: 100%;
+    padding: 0.5rem;
+    font-size: 1rem;
+    margin-bottom: 0.8rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  button {
+    padding: 0.5rem 1.5rem;
+    font-size: 1rem;
+    background-color: #3818eb;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-bottom: 1rem;
+  }
+  button:hover {
+    background-color: #5c3cea;
+  }
+  .result {
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: #222;
+  }
+  .back-link {
+    text-align: center;
+    margin: 2rem 0;
+  }
+  .back-link a {
+    color: #3818eb;
+    text-decoration: none;
+    font-weight: 600;
+  }
+  .back-link a:hover {
+    text-decoration: underline;
+  }
+</style>
+</head>
+<body>
+<header>
+  <nav>
+  <a href="index.html">HOME</a>
+  
+
+  </nav>
+</header>
+<main>
+  <h1>Assignment #1 - Unit Conversion</h1>
+
+  <!-- Celsius to Fahrenheit -->
+  <section class="section">
+    <h2>Celsius to Fahrenheit</h2>
+    <label for="celsiusInput">Enter Celsius (&deg;C):</label>
+    <input type="number" id="celsiusInput" placeholder="e.g. 25" step="any" />
+    <button type="button" onclick="convertCtoF()">Convert</button>
+    <p class="result" id="cToFResult"></p>
+  </section>
+
+  <!-- Fahrenheit to Celsius -->
+  <section class="section">
+    <h2>Fahrenheit to Celsius</h2>
+    <label for="fahrenheitInput">Enter Fahrenheit (&deg;F):</label>
+    <input type="number" id="fahrenheitInput" placeholder="e.g. 77" step="any" />
+    <button type="button" onclick="convertFtoC()">Convert</button>
+    <p class="result" id="fToCResult"></p>
+  </section>
+
+  <!-- Meters to Feet -->
+  <section class="section">
+    <h2>Meters to Feet</h2>
+    <label for="metersInput">Enter Meters (m):</label>
+    <input type="number" id="metersInput" placeholder="e.g. 10" step="any" />
+    <button type="button" onclick="convertMtoF()">Convert</button>
+    <p class="result" id="mToFResult"></p>
+  </section>
+
+  <!-- Feet to Meters -->
+  <section class="section">
+    <h2>Feet to Meters</h2>
+    <label for="feetInput">Enter Feet (ft):</label>
+    <input type="number" id="feetInput" placeholder="e.g. 32.8" step="any" />
+    <button type="button" onclick="convertFtoM()">Convert</button>
+    <p class="result" id="fToMResult"></p>
+  </section>
+
+  <div class="back-link">
+    <a href="index.html">&larr; Back to Home</a>
+  </div>
+</main>
+
+<script>
+  function convertCtoF() {
+    const celsius = parseFloat(document.getElementById('celsiusInput').value);
+    if (isNaN(celsius)) {
+      alert("Please enter a valid number for Celsius.");
+      return;
+    }
+    const fahrenheit = (celsius * 9/5) + 32;
+    document.getElementById('cToFResult').textContent = `${celsius} °C = ${fahrenheit.toFixed(2)} °F`;
+  }
+
+  function convertFtoC() {
+    const fahrenheit = parseFloat(document.getElementById('fahrenheitInput').value);
+    if (isNaN(fahrenheit)) {
+      alert("Please enter a valid number for Fahrenheit.");
+      return;
+    }
+    const celsius = (fahrenheit - 32) * 5/9;
+    document.getElementById('fToCResult').textContent = `${fahrenheit} °F = ${celsius.toFixed(2)} °C`;
+  }
+
+  function convertMtoF() {
+    const meters = parseFloat(document.getElementById('metersInput').value);
+    if (isNaN(meters)) {
+      alert("Please enter a valid number for Meters.");
+      return;
+    }
+    const feet = meters * 3.28084;
+    document.getElementById('mToFResult').textContent = `${meters} m = ${feet.toFixed(2)} ft`;
+  }
+
+  function convertFtoM() {
+    const feet = parseFloat(document.getElementById('feetInput').value);
+    if (isNaN(feet)) {
+      alert("Please enter a valid number for Feet.");
+      return;
+    }
+    const meters = feet / 3.28084;
+    document.getElementById('fToMResult').textContent = `${feet} ft = ${meters.toFixed(2)} m`;
+  }
+</script>
+</body>
+</html>
